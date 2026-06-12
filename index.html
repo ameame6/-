@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>今天穿什么</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-label="应用概览">
+        <div class="hero-copy">
+          <p class="eyebrow">Wardrobe Stylist</p>
+          <h1>今天穿什么</h1>
+          <p class="subtitle">把衣柜变成会记忆、会学习、会搭配的私人造型台，让每天出门都像一次小小的造型仪式。</p>
+          <div class="ritual-pills" aria-label="今日仪式">
+            <span>选衣</span>
+            <span>配色</span>
+            <span>配饰</span>
+            <span>出门确认</span>
+          </div>
+        </div>
+        <div class="today-strip">
+          <div>
+            <span>衣柜</span>
+            <strong id="statTotal">0</strong>
+          </div>
+          <div>
+            <span>未穿过</span>
+            <strong id="statUnworn">0</strong>
+          </div>
+          <div>
+            <span>学习风格</span>
+            <strong id="statLooks">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="planner" aria-label="搭配规划">
+        <div class="planner-main">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Outfit Plan</p>
+              <h2>出门前 30 秒生成今日造型</h2>
+            </div>
+            <button class="primary-action" id="generateBtn" type="button">生成搭配</button>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              出行场合
+              <select id="occasionInput">
+                <option>上班通勤</option>
+                <option>朋友聚会</option>
+                <option>约会晚餐</option>
+                <option>旅行拍照</option>
+                <option>正式会议</option>
+                <option>周末休闲</option>
+              </select>
+            </label>
+            <label>
+              温度
+              <input id="tempInput" type="number" value="24" min="-10" max="42" />
+            </label>
+            <label>
+              天气
+              <select id="weatherInput">
+                <option>晴朗</option>
+                <option>多云</option>
+                <option>小雨</option>
+                <option>大风</option>
+                <option>降温</option>
+                <option>闷热</option>
+              </select>
+            </label>
+            <label>
+              今日需求
+              <input id="needInput" value="显瘦、舒适、有质感" />
+            </label>
+          </div>
+
+          <div class="tag-cloud" id="moodTags" aria-label="风格偏好"></div>
+
+          <div class="recommendation" id="recommendation">
+            <div class="empty-state">
+              <span class="empty-icon">+</span>
+              <p>先添加几件衣服，或者直接使用示例衣柜，开启今天的穿搭仪式。</p>
+              <button id="seedBtn" type="button">载入示例衣柜</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="style-memory" aria-label="风格记忆">
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow">Style Memory</p>
+              <h2>穿搭灵感学习</h2>
+            </div>
+          </div>
+          <label class="image-drop">
+            <input id="lookUpload" type="file" accept="image/*" />
+            <img id="lookPreview" alt="" />
+            <span id="lookPlaceholder">导入一张让你心动的穿搭图</span>
+          </label>
+          <div class="palette" id="palette"></div>
+          <div class="tag-cloud small" id="inspirationTags"></div>
+          <textarea id="lookNote" rows="3" placeholder="这张图哪里打动你？比如：短上衣拉高腰线、低饱和配色、配饰很精致"></textarea>
+          <button class="secondary-action full" id="saveLookBtn" type="button">保存为风格记忆</button>
+        </aside>
+      </section>
+
+      <section class="workspace">
+        <div class="import-panel">
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow">Import</p>
+              <h2>把衣柜搬进来</h2>
+            </div>
+          </div>
+          <label class="file-box">
+            <input id="clothesUpload" type="file" accept="image/*" multiple />
+            <span>选择衣服照片，给它一个被想起的机会</span>
+          </label>
+          <div class="form-grid one">
+            <label>
+              类目
+              <select id="categoryInput">
+                <option>上衣</option>
+                <option>下装</option>
+                <option>外套</option>
+                <option>连衣裙</option>
+                <option>鞋履</option>
+                <option>袜子</option>
+                <option>配饰</option>
+                <option>包袋</option>
+              </select>
+            </label>
+            <label>
+              名称
+              <input id="itemNameInput" placeholder="例如：奶油白针织开衫" />
+            </label>
+            <label>
+              自定义标签
+              <input id="customTagInput" placeholder="输入后回车添加，如：法式、辣妹、学院" />
+            </label>
+          </div>
+          <div class="tag-cloud small" id="importTags"></div>
+          <div class="slider-row">
+            <label>保暖 <input id="warmthInput" type="range" min="1" max="5" value="3" /></label>
+            <label>正式 <input id="formalInput" type="range" min="1" max="5" value="3" /></label>
+          </div>
+          <button class="primary-action full" id="addItemsBtn" type="button">添加到衣柜</button>
+        </div>
+
+        <div class="closet-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Closet</p>
+              <h2>我的衣柜</h2>
+            </div>
+            <div class="filters">
+              <input id="searchInput" placeholder="搜索衣服或标签" />
+              <select id="filterCategory">
+                <option value="全部">全部类目</option>
+                <option>上衣</option>
+                <option>下装</option>
+                <option>外套</option>
+                <option>连衣裙</option>
+                <option>鞋履</option>
+                <option>袜子</option>
+                <option>配饰</option>
+                <option>包袋</option>
+              </select>
+              <button id="unwornToggle" type="button">只看未穿</button>
+            </div>
+          </div>
+          <div class="closet-grid" id="closetGrid"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="itemTemplate">
+      <article class="clothing-card">
+        <button class="wear-dot" type="button" title="标记穿过">0</button>
+        <img alt="" />
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3></h3>
+            <span class="category-pill"></span>
+          </div>
+          <p class="wear-text"></p>
+          <div class="mini-tags"></div>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
